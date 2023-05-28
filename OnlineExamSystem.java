@@ -1,9 +1,15 @@
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 class OnlineExamSystem {
     private static Scanner scanner = new Scanner(System.in);
     private static boolean loggedIn = false;
     private static boolean signedUp = false;
+    private static Timer timer;
+    private static TimerTask task;
+    
 
     public static void main(String[] args) {
         while (true) {
@@ -111,17 +117,67 @@ class OnlineExamSystem {
         System.out.println();
     }
 
+    
     private static void startExam() {
         System.out.println("===== Exam =====");
+
+        // Set the exam duration (in milliseconds)
+        long examDuration = 300000; // 5 minutes
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                submitExam();
+            }
+        }, examDuration);
+
         // Implement logic for the exam
         // Display the MCQs, allow the user to select answers, and manage the timer
 
+        // Display and process the MCQ
+        System.out.println("Q1: What is the capital of France?");
+        System.out.println("1) Paris");
+        System.out.println("2) London");
+        System.out.println("3) Rome");
+        System.out.println("4) Berlin");
+
+        // Get the user's answer
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Your answer (enter the corresponding number): ");
+        int answer = scanner.nextInt();
+
+        // Validate and process the answer
+        switch (answer) {
+            case 1:
+                System.out.println("Correct answer!");
+                // Perform any required actions for a correct answer
+                break;
+            default:
+                System.out.println("Incorrect answer!");
+                // Perform any required actions for an incorrect answer
+                break;
+        }
+
+        // Continue with the rest of the exam and other questions
+
+        // Cancel the timer as the exam is completed
+        timer.cancel();
+
         System.out.println("Exam completed. Submitting answers...");
         // Implement logic to submit the answers automatically
+        submitExam();
 
         System.out.println("Exam submitted successfully!");
         System.out.println();
     }
+
+    private static void submitExam() {
+        // Implement logic to submit the answers automatically
+        System.out.println("Submitting exam...");
+        // Additional code to handle the submission process
+        System.exit(0); // Exit the program after submission
+    }
+
 
     private static void closeSessionAndLogout() {
         System.out.println("Closing session and logging out...");
